@@ -1,67 +1,77 @@
+$tasks_array = []
+
 class TasksController < ApplicationController
   # GET '/tasks'
   # GET '/tasks/active'
   # GET '/tasks/completed'
   def index
+    active = $tasks_array.select { |task| task.completed == false }
+    completed = @tasks = $tasks_array.select { |task| task.completed == true }
+
     case params['filter']
     when 'active'
       @filter = params['filter']
-      @tasks = Task.where(:completed => false).order('tasks.created_at DESC')
+      # created at descending
+      @tasks = active
     when "completed"
       @filter = params['filter']
-      @tasks = Task.where(:completed => true).order('tasks.created_at DESC')
+      # created at descending
+      @tasks = completed
     else
-      # @tasks = Task.all.order('tasks.created_at DESC')
-      @tasks = []
+      @tasks = $tasks_array
     end
 
-    # @activeCount = Task.where(:completed => false).count
-    # @completedCount = Task.where(:completed => true).count
-    # @allCompleted = @tasks.length > 0 && @activeCount == 0
-    @activeCount = @tasks.count
-    @completedCount = @tasks.count
-    @allCompleted = @tasks.length > 0 && @activeCount == 0
+    @activeCount = active.count
+    @completedCount = completed.count
+    @allCompleted = @tasks.count > 0 && @activeCount == 0
   end
 
   # POST '/'
   def create
-    @task = Task.new(task_params)
-    @task.save
+    @task = Task.new($tasks_array.length, task_params["title"])
+    $tasks_array.push(@task)
     redirect_back(fallback_location: 'tasks')
   end
 
   # PUT '/tasks/:id'
   def update
+    id = task_params["id"]
+    @task = $tasks_array.select { |t| t.id == id }
     @task = Task.find(params[:id])
     if params[:task][:title]
-      @task.update_attribute(:title, params[:task][:title])
+      $tasks_array.delete_if { |t| t.id == id }
+      @task.title = params[:task][:title]
     end
     if params[:task][:completed]
-      @task.update_attribute(:completed, params[:task][:completed])
+      @task.completed = params[:task][:completed]
     end
+    $tasks_array.push(@task)
     redirect_back(fallback_location: 'tasks')
   end
 
   # DELETE '/tasks/:id'
   def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
+    $tasks_array = []
     redirect_back(fallback_location: 'tasks')
   end
 
   # POST '/tasks/toggle_complete_all'
   def toggle_complete_all
     if params['complete-all']
-      Task.update_all(completed: true)
+      for i in $tasks_array.length
+        $tasks_array[i].completed = true
+      end
     else
-      Task.update_all(completed: false)
+      for i in $tasks_array.length
+        $tasks_array[i].completed = false
+      end
     end
     redirect_back(fallback_location: 'tasks')
   end
 
   # POST '/tasks/clear_completed'
   def clear_completed
-    Task.where(:completed => true).delete_all
+    $tasks_array.delete_if { |t| t.completed == true }
     redirect_back(fallback_location: 'tasks')
   end
 
