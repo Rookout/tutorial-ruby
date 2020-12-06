@@ -1,0 +1,149 @@
+<section class="todoapp">
+  <header class="header">
+    <h1>todos</h1>
+    <%# POST / %>
+    <%= form_for :task do |f| %>
+      <%= f.text_field(:title,
+                       :placeholder => "What needs to be done?",
+                       :class => "new-todo",
+                       :autofocus => true)
+      %>
+    <% end %>
+  </header>
+  <section class="main">
+    <%# POST /tasks/toggle_complete_all %>
+    <%= check_box_tag("complete-all", !@allCompleted, @allCompleted,
+                      :class => "toggle-all",
+                      :disabled => @tasks.length == 0,
+                      :data => {
+                        :remote => true,
+                        :method => :post,
+                        :url => "/tasks/toggle_complete_all"
+                      })
+    %>
+    <label for="complete-all" title="Toggle complete all">Mark all as complete</label>
+    <ul class="todo-list">
+      <% @tasks.each do |task| %>
+        <li dataid="<%= task.id %>" class="<%= task.completed ? 'completed' : '' %>" >
+          <%= content_tag(:div,
+                          :class => "view",
+                          :ondblclick => "editTodo(this)"
+              ) do
+          %>
+            <%# PUT /tasks/1 %>
+            <%= check_box_tag("", "", task.completed,
+                              :class => "toggle",
+                              :onchange => "toggleCompleted(this)",
+                              :data => {
+                                :remote => true,
+                                :method => :put,
+                                :url => task_path(task, "task[completed]" => !task.completed)
+                              })
+            %>
+            <%= label_tag(task, task.title) %>
+            <%# DELETE /tasks/1 %>
+            <%= button_tag("",
+                           :type => "",
+                           :class => "destroy",
+                           :data => {
+                             :remote => true,
+                             :method => :delete,
+                             :url => task_path(task),
+                             :confirm => "Confirm to delete this item?"
+                           })
+            %>
+          <% end %>
+          <%# PUT /tasks/1 %>
+          <%= form_for task do |f| %>
+            <%= f.text_field(:title,
+                             :value => task.title,
+                             :class => "edit",
+                             :onfocus => "editTodoOnFocus(this)",
+                             :onblur => "editTodoOnBlur(this)",
+                             :onkeydown => "editTodoKeydown(event, this)")
+            %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+  <% if !@filter.to_s.empty? || @tasks.length > 0 %>
+    <footer class="footer">
+      <span class="todo-count">
+        <strong><%= @activeCount %></strong> <%= "item".pluralize(@activeCount) %> left
+      </span>
+      <ul class="filters">
+        <li>
+          <%= link_to("All", tasks_path,
+                      :class => @filter.to_s.empty? ? "selected" : "")
+          %>
+        </li>
+        <li>
+          <%= link_to("Active", tasks_path({"filter" => "active"}),
+                      :class => @filter == "active" ? "selected" : "")
+          %>
+        </li>
+        <li>
+          <%= link_to("Completed", tasks_path({"filter" => "completed"}),
+                      :class => @filter == "completed" ? "selected" : "")
+          %>
+        </li>
+      </ul>
+      <% if @completedCount > 0 && @filter != "active" %>
+        <%= button_tag("Clear completed",
+                       :type => "",
+                       :class => "clear-completed",
+                       :data => {
+                         :remote => true,
+                         :method => :post,
+                         :url => "/tasks/clear_completed",
+                         :confirm => "Are you sure? This cannot be undone."
+                       })
+        %>
+      <% end %>
+    </footer>
+  <% end %>
+</section>
+<footer class="info">
+  <p>
+    Double-click to edit a todo
+  </p>
+  <p>
+    Press Enter or click elsewhere to save changes
+  </p>
+  <p>
+    Press Escape to cancel editing
+  </p>
+</footer>
+
+<script>
+    var ENTER_KEY = 13,
+        ESC_KEY = 27;
+
+    var editTodo = function(element) {
+        element.closest('li').classList.toggle('editing');
+        element.closest('li').getElementsByClassName('edit')[0].focus();
+    };
+    var editTodoOnFocus = function(element) {
+        element.selectionStart = element.selectionEnd = element.value.length;
+        localStorage.setItem('task_title', element.value);
+    };
+    var editTodoOnBlur = function(element) {
+        if (localStorage.getItem('confirm_edit') != false && element.value != localStorage.getItem('task_title')) {
+            element.closest('form').submit();
+        } else {
+            element.value = localStorage.getItem('task_title');
+            element.closest('li').classList.toggle('editing');
+        }
+    };
+    var editTodoKeydown = function(event, element) {
+        if (event.keyCode === ESC_KEY) {
+            localStorage.setItem('confirm_edit', false);
+            element.value = localStorage.getItem('task_title');
+            element.blur();
+        }
+    };
+    var toggleCompleted = function(element) {
+        element.closest('li').classList.toggle('completed');
+    };
+</script>
