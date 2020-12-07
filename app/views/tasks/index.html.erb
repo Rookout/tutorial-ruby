@@ -37,7 +37,7 @@
                               :data => {
                                 :remote => true,
                                 :method => :put,
-                                :url => task_path(task, "task[completed]" => !task.completed)
+                                :url => task_path(task.id, "task[completed]" => !task.completed)
                               })
             %>
             <%= label_tag(task, task.title) %>
@@ -54,14 +54,12 @@
             %>
           <% end %>
           <%# PUT /tasks/1 %>
-          <%= form_for task do |f| %>
-            <%= f.text_field(:title,
-                             :value => task.title,
-                             :class => "edit",
-                             :onfocus => "editTodoOnFocus(this)",
-                             :onblur => "editTodoOnBlur(this)",
-                             :onkeydown => "editTodoKeydown(event, this)")
-            %>
+          <%= form_tag do %>
+            <%= text_field(:task, "title", :value => task.title,
+                           :class => "edit",
+                           :onfocus => "editTodoOnFocus(this)",
+                           :onblur => "editTodoOnBlur(this)",
+                           :onkeydown => "editTodoKeydown(event, this)") %>
           <% end %>
         </li>
       <% end %>

@@ -35,17 +35,19 @@ class TasksController < ApplicationController
 
   # PUT '/tasks/:id'
   def update
-    id = task_params["id"]
-    @task = $tasks_array.select { |t| t.id == id }
-    @task = Task.find(params[:id])
+    params.require(:task).permit(:title, :completed, :id)
+    id = params[:id].to_i
+    @task = $tasks_array.find { |t| t.id == id }
     if params[:task][:title]
-      $tasks_array.delete_if { |t| t.id == id }
       @task.title = params[:task][:title]
+      $tasks_array.delete_if { |t| t.id == id }
+      $tasks_array.push(@task)
     end
     if params[:task][:completed]
       @task.completed = params[:task][:completed]
+      $tasks_array.delete_if { |t| t.id == id }
+      $tasks_array.push(@task)
     end
-    $tasks_array.push(@task)
     redirect_back(fallback_location: 'tasks')
   end
 
