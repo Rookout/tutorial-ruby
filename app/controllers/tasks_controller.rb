@@ -28,7 +28,8 @@ class TasksController < ApplicationController
 
   # POST '/'
   def create
-    @task = Task.new($tasks_array.length, task_params["title"])
+    params.require(:task).permit(:task)
+    @task = Task.new($tasks_array.length, params[:task][:title])
     $tasks_array.push(@task)
     redirect_back(fallback_location: 'tasks')
   end

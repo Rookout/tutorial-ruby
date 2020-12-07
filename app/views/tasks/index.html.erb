@@ -2,13 +2,15 @@
   <header class="header">
     <h1>todos</h1>
     <%# POST / %>
-    <%= form_for :task do |f| %>
-      <%= f.text_field(:title,
-                       :placeholder => "What needs to be done?",
-                       :class => "new-todo",
-                       :autofocus => true)
-      %>
-    <% end %>
+    <%= text_field(:task, :title,
+                     :placeholder => "What needs to be done?",
+                     :class => "new-todo",
+                     :autofocus => true,
+                     :data => {
+                       :remote => true,
+                       :method => :post
+                     })
+    %>
   </header>
   <section class="main">
     <%# POST /tasks/toggle_complete_all %>
