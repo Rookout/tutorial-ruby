@@ -53,7 +53,8 @@ class TasksController < ApplicationController
 
   # DELETE '/tasks/:id'
   def destroy
-    $tasks_array = []
+    id = params[:id].to_i
+    $tasks_array.delete_if { |t| t.id == id }
     redirect_back(fallback_location: 'tasks')
   end
 
