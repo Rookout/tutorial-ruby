@@ -56,19 +56,17 @@
             %>
           <% end %>
           <%# PUT /tasks/1 %>
-          <%= form_tag do %>
-            <%= text_field(:task, "title",
-                           :value => task.title,
-                           :class => "edit",
-                           :onfocus => "editTodoOnFocus(this)",
-                           :onblur => "editTodoOnBlur(this)",
-                           :onkeydown => "editTodoKeydown(event, this)",
-                           :data => {
-                             :remote => true,
-                             :method => :put,
-                             :url => task_path(task.id),
-                           }) %>
-          <% end %>
+          <%= text_field(:task, "title",
+                         :value => task.title,
+                         :class => "edit",
+                         :onfocus => "editTodoOnFocus(this)",
+                         :onblur => "editTodoOnBlur(this)",
+                         :onkeydown => "editTodoKeydown(event, this)",
+                         :data => {
+                           :remote => true,
+                           :method => :put,
+                           :url => task_path(task.id),
+                         }) %>
         </li>
       <% end %>
     </ul>
