@@ -5,8 +5,8 @@ class TasksController < ApplicationController
   # GET '/tasks/active'
   # GET '/tasks/completed'
   def index
-    active = $tasks_array.select { |task| task.completed == false }
-    completed = @tasks = $tasks_array.select { |task| task.completed == true }
+    active = $tasks_array.select { |t| t.completed == false }
+    completed = $tasks_array.select { |t| t.completed == true }
 
     case params['filter']
     when 'active'
@@ -45,7 +45,8 @@ class TasksController < ApplicationController
       $tasks_array.push(@task)
     end
     if params[:task][:completed]
-      @task.completed = params[:task][:completed]
+      completed = params[:task][:completed].to_s == "true" # convert param to bool
+      @task.completed = completed
       $tasks_array.delete_if { |t| t.id == id }
       $tasks_array.push(@task)
     end
