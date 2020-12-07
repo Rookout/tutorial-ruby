@@ -12,21 +12,20 @@ class TasksController < ApplicationController
     when 'active'
       @filter = params['filter']
       # created at descending
-      tasks = active
+      @tasks = active
     when "completed"
       @filter = params['filter']
       # created at descending
-      tasks = completed
+      @tasks = completed
     else
-      tasks = $tasks_storage
+      @tasks = $tasks_storage
     end
 
-    tasks = tasks.sort_by{ |t| t.created_at }
+    @tasks = @tasks.sort_by{ |t| t.created_at }
 
     @activeCount = active.count
     @completedCount = completed.count
-    @allCompleted = tasks.count > 0 && @activeCount == 0
-    @tasks = tasks
+    @allCompleted = @tasks.count > 0 && @activeCount == 0
   end
 
   # POST '/'
