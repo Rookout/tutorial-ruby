@@ -13,17 +13,6 @@
     %>
   </header>
   <section class="main">
-    <%# POST /tasks/toggle_complete_all %>
-    <%= check_box_tag("complete-all", !@allCompleted, @allCompleted,
-                      :class => "toggle-all",
-                      :disabled => @tasks.length == 0,
-                      :data => {
-                        :remote => true,
-                        :method => :post,
-                        :url => "/tasks/toggle_complete_all"
-                      })
-    %>
-    <label for="complete-all" title="Toggle complete all">Mark all as complete</label>
     <ul class="todo-list">
       <% @tasks.each do |task| %>
         <li dataid="<%= task.id %>" class="<%= task.completed ? 'completed' : '' %>" >

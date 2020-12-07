@@ -63,20 +63,6 @@ class TasksController < ApplicationController
     redirect_back(fallback_location: 'tasks')
   end
 
-  # POST '/tasks/toggle_complete_all'
-  def toggle_complete_all
-    if params['complete-all']
-      for i in $tasks_storage.length
-        $tasks_storage[i].completed = true
-      end
-    else
-      for i in $tasks_storage.length
-        $tasks_storage[i].completed = false
-      end
-    end
-    redirect_back(fallback_location: 'tasks')
-  end
-
   # POST '/tasks/clear_completed'
   def clear_completed
     $tasks_storage.delete_if { |t| t.completed == true }
