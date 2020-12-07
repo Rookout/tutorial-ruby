@@ -1,36 +1,39 @@
-$tasks_array = []
+$tasks_storage = []
 
 class TasksController < ApplicationController
   # GET '/tasks'
   # GET '/tasks/active'
   # GET '/tasks/completed'
   def index
-    active = $tasks_array.select { |t| t.completed == false }
-    completed = $tasks_array.select { |t| t.completed == true }
+    active = $tasks_storage.select { |t| t.completed == false }
+    completed = $tasks_storage.select { |t| t.completed == true }
 
     case params['filter']
     when 'active'
       @filter = params['filter']
       # created at descending
-      @tasks = active
+      tasks = active
     when "completed"
       @filter = params['filter']
       # created at descending
-      @tasks = completed
+      tasks = completed
     else
-      @tasks = $tasks_array
+      tasks = $tasks_storage
     end
+
+    tasks = tasks.sort_by{ |t| t.created_at }
 
     @activeCount = active.count
     @completedCount = completed.count
-    @allCompleted = @tasks.count > 0 && @activeCount == 0
+    @allCompleted = tasks.count > 0 && @activeCount == 0
+    @tasks = tasks
   end
 
   # POST '/'
   def create
     params.require(:task).permit(:task)
-    @task = Task.new($tasks_array.length, params[:task][:title])
-    $tasks_array.push(@task)
+    @task = Task.new($tasks_storage.length, params[:task][:title])
+    $tasks_storage.push(@task)
     redirect_back(fallback_location: 'tasks')
   end
 
@@ -38,17 +41,17 @@ class TasksController < ApplicationController
   def update
     params.require(:task).permit(:title, :completed, :id)
     id = params[:id].to_i
-    @task = $tasks_array.find { |t| t.id == id }
+    @task = $tasks_storage.find { |t| t.id == id }
     if params[:task][:title]
       @task.title = params[:task][:title]
-      $tasks_array.delete_if { |t| t.id == id }
-      $tasks_array.push(@task)
+      $tasks_storage.delete_if { |t| t.id == id }
+      $tasks_storage.push(@task)
     end
     if params[:task][:completed]
       completed = params[:task][:completed].to_s == "true" # convert param to bool
       @task.completed = completed
-      $tasks_array.delete_if { |t| t.id == id }
-      $tasks_array.push(@task)
+      $tasks_storage.delete_if { |t| t.id == id }
+      $tasks_storage.push(@task)
     end
     redirect_back(fallback_location: 'tasks')
   end
@@ -56,19 +59,19 @@ class TasksController < ApplicationController
   # DELETE '/tasks/:id'
   def destroy
     id = params[:id].to_i
-    $tasks_array.delete_if { |t| t.id == id }
+    $tasks_storage.delete_if { |t| t.id == id }
     redirect_back(fallback_location: 'tasks')
   end
 
   # POST '/tasks/toggle_complete_all'
   def toggle_complete_all
     if params['complete-all']
-      for i in $tasks_array.length
-        $tasks_array[i].completed = true
+      for i in $tasks_storage.length
+        $tasks_storage[i].completed = true
       end
     else
-      for i in $tasks_array.length
-        $tasks_array[i].completed = false
+      for i in $tasks_storage.length
+        $tasks_storage[i].completed = false
       end
     end
     redirect_back(fallback_location: 'tasks')
@@ -76,12 +79,7 @@ class TasksController < ApplicationController
 
   # POST '/tasks/clear_completed'
   def clear_completed
-    $tasks_array.delete_if { |t| t.completed == true }
+    $tasks_storage.delete_if { |t| t.completed == true }
     redirect_back(fallback_location: 'tasks')
-  end
-
-  private
-  def task_params
-    params.require(:task).permit(:title, :completed)
   end
 end

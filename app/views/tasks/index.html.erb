@@ -26,7 +26,7 @@
     <label for="complete-all" title="Toggle complete all">Mark all as complete</label>
     <ul class="todo-list">
       <% @tasks.each do |task| %>
-        <li dataid="<%= task.id %>" class="<%= task.completed ? 'completed' : '' %>" > <%# todo: bugfix - completed %>
+        <li dataid="<%= task.id %>" class="<%= task.completed ? 'completed' : '' %>" >
           <%= content_tag(:div,
                           :class => "view",
                           :ondblclick => "editTodo(this)"
