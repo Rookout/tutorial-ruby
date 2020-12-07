@@ -29,7 +29,7 @@ the app will now run on `https://localhost:3000/`
 ## Usage
 1. Log in to [Rookout](https://app.rookout.com/)
 2. Select your tutorial-ruby server and add the source code.
-3. Open the file `app/controllers/tasks_controller.rb` and set a breakpoint in line.
+3. Open the file `app/controllers/tasks_controller.rb` and set a breakpoint in line 35.
 4. Browse to your [localhost](https://localhost:3000/) and add a todo item to the list.
 5. Come back to Roookout and check the bottom messages pane. You'll see the snapshot you just added, as it was triggered by the handler of the web api when you added a todo.
 
