@@ -39,7 +39,7 @@ references:
     run:
       command: |
         mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-        pip install -e git+ssh://git@github.com/Rookout/build_tools.git#egg=rookout_build_tools
+        python3 -m pip install -e git+ssh://git@github.com/Rookout/build_tools.git#egg=rookout_build_tools
 
   setup_make: &setup_make
     run: sudo apt-get update -q && sudo apt-get install --reinstall make
@@ -56,7 +56,7 @@ references:
 jobs:
   checkout_code_upver:
     docker:
-      - image: python:2.7
+      - image: python:3.7
     working_directory: ~/demo
     steps:
       - *checkout_default_wd
