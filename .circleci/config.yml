@@ -61,8 +61,8 @@ jobs:
     steps:
       - *checkout_default_wd
       - *setup_workspace
-      - *setup_build_tools
       - add_ssh_keys
+      - *setup_build_tools
       - run:
           command: |
             mkdir -p ~/demo/workspace
@@ -81,6 +81,7 @@ jobs:
       - image: google/cloud-sdk:latest
     working_directory: ~/demo
     steps:
+      - add_ssh_keys
       - *load_cache
       - *setup_workspace
       - *load_version
