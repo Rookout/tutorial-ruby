@@ -52,7 +52,6 @@ references:
   docker_login: &docker_login
     run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-
 jobs:
   checkout_code_upver:
     docker:
