@@ -3,6 +3,7 @@ FROM ruby:2.7
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 
+RUN bundle config force_ruby_platform true
 RUN bundle install
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
