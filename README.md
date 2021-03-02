@@ -29,7 +29,7 @@ the app will now run on `https://localhost:3000/`
 - Optional - Run the app using Docker:
 
 ```bash
-docker run -p 3000:3000 -e ROOKOUT_TOKEN=$ROOKOUT_TOKEN rookout/tutorial-python
+docker run -p 3000:3000 -e ROOKOUT_TOKEN=$ROOKOUT_TOKEN rookout/tutorial-ruby
 ```
 
 ## Usage
@@ -76,5 +76,6 @@ docker run -p 3000:3000 -e ROOKOUT_TOKEN=$ROOKOUT_TOKEN rookout/tutorial-python
 
 ## Want to learn more ?
 
-- [Our documentation][docs-url] for more information
-- [our deployment examples][deployment-examples] for platform-specific integration examples
+- [Our website](https://rookout.com/) for more information
+- [Our documentation](https://docs.rookout.com/) for more information
+- [our deployment examples](https://docs.rookout.com/docs/deployment-examples.html) for platform-specific integration examples
