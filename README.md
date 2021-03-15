@@ -34,33 +34,9 @@ docker run -p 3000:3000 -e ROOKOUT_TOKEN=$ROOKOUT_TOKEN rookout/tutorial-ruby
 
 ## Usage
 
-- Log in to [the Rookout IDE][rookout-app-url].
-- Add the source code according to the instructions using the left pane **Source View**
-
-    <details>
-    <summary>More details</summary>
-    <p>
-    
-    #### Adding source code
-    
-    1. Click on Add source
-    1. Choose source control
-        - Github
-            - Click on Connect
-            - Authorize O-Auth
-            - Fill `Repository Owner`
-            - Click `Repository` and choose from the dropdown menu
-            - Click Next
-            - Choose the desired branch
-            - Click View Repository
-        - Local FileSystem - Server
-            - Click on Setup Server
-            - Choose a supported HTTP Server
-            - Follow the on-screen instructions
-    </p>
-    </details>
-    
-    
+- Log in to [the Rookout IDE](rookout-app-url)
+- Set up your debug session by selecting the Ruby app you started. See [Debug session setup](https://docs.rookout.com/docs/debug-session-setup) for more information
+- Add the source code according to the following [instructions](https://docs.rookout.com/docs/source-repos/). In this case, use the [local filesystem option](https://docs.rookout.com/docs/source-repos/) to associate the code in your local 'tutorial-ruby' folder.
 - Open the file `app/controllers/tasks_controller.rb`
 - Add a Breakpoint next to line number 35 by clicking next the the line number in the file viewer
 - The Breakpoint should turn solid purple, indicating that it has been set successfully and that it is active.
