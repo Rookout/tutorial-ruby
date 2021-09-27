@@ -3,7 +3,7 @@
 A sample app for debugging Ruby using [Rookout](https://rookout.com/).
 
 ## Prerequisites
-1. ruby 2.7 or later.
+1. ruby 2.7
 2. rails 6.0.0 or later
 
 ## Setup
