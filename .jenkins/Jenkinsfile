@@ -19,7 +19,7 @@ podCreator.initMain(label: label) {
                 sh("ls -alt")
                 print(pwd())
                 sh("ls -alt ./.jenkins")
-                TestUtilities.createTest(this, scriptToUse, jobName, pwd() + "/.jenkins", "Jenkinsfile.test", testFolder)
+                TestUtilities.createTest(this, scriptToUse, jobName, pwd() + "/.jenkins", "jenkinsfile.test", testFolder)
 
             }
             if ("master".equals(env.GIT_BRANCH)) {
