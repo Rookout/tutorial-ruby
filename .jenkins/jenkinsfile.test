@@ -5,4 +5,5 @@ regressionTest {
     URL_FOR_TRIGGER = "http://localhost:3000"
     LANG = "ruby"
     BACKGROUND_IMAGE_CMD = "rails server -e development -b 0.0.0.0 &"
+    CUSTOM_SLEEP_TIME = "30"
 }
