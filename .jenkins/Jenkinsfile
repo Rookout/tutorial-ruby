@@ -33,9 +33,7 @@ podCreator.initMain(label: label) {
             }catch (e) {
                 if ("master".equals(env.GIT_BRANCH)) {
                 withCredentials([
-                    string(credentialsId: 'SLACK_CLIENT_SECRET_PROD', variable: 'SLACK_CLIENT_SECRET'),
-                    string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN'),
-                    string(credentialsId: 'ENFORCER_SECRET', variable: 'ENFORCER_SECRET')
+                    string(credentialsId: 'SLACK_TOKEN', variable: 'SLACK_API_TOKEN')
                 ]) {
                         stage('Notify') {
                             container('rookout-helm') {
