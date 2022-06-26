@@ -22,12 +22,23 @@ podCreator.initMain(label: label) {
                 TestUtilities.createTest(this, scriptToUse, jobName, pwd() + "/.jenkins", "jenkinsfile.test", testFolder)
 
             }
-            if ("master".equals(env.GIT_BRANCH)) {
-                stage('Run ruby tests') {
-                    triggerer.regressionEx(GIT_BRANCH: "master", GIT_REPO: "ruby-sdk", LANGUAGE_TO_RUN: "ruby") {
+            try {
+                if ("master".equals(env.GIT_BRANCH)) {
+                    stage('Run ruby tests') {
+                        triggerer.regressionEx(GIT_BRANCH: "master", GIT_REPO: "ruby-sdk", LANGUAGE_TO_RUN: "ruby") {
 
+                        }
                     }
                 }
+            }catch (e) {
+                if ("master".equals(env.GIT_BRANCH)) {
+                    stage('Notify') {
+                        container('rookout-helm') {
+                            sh "rbt notify custom_msg --channel sdk --msg \"${env.GIT_REPO}/${GIT_BRANCH} Pipeline has failed.\""
+                        }
+                    }
+                }
+                throw e
             }
         }
     }
