@@ -37,7 +37,7 @@ podCreator.initMain(label: label) {
                 ]) {
                         stage('Notify') {
                             container('rookout-helm') {
-                                sh "rbt notify custom_msg --channel sdk --msg \"${env.GIT_REPO}/${GIT_BRANCH} Pipeline has failed.\""
+                                sh "rbt notify custom_msg --channel sdk --msg \"Tutorial-Ruby/${GIT_BRANCH} Pipeline has failed.\""
                             }
                         }
                     }
