@@ -32,9 +32,15 @@ podCreator.initMain(label: label) {
                 }
             }catch (e) {
                 if ("master".equals(env.GIT_BRANCH)) {
-                    stage('Notify') {
-                        container('rookout-helm') {
-                            sh "rbt notify custom_msg --channel sdk --msg \"${env.GIT_REPO}/${GIT_BRANCH} Pipeline has failed.\""
+                withCredentials([
+                    string(credentialsId: 'SLACK_CLIENT_SECRET_PROD', variable: 'SLACK_CLIENT_SECRET'),
+                    string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN'),
+                    string(credentialsId: 'ENFORCER_SECRET', variable: 'ENFORCER_SECRET')
+                ]) {
+                        stage('Notify') {
+                            container('rookout-helm') {
+                                sh "rbt notify custom_msg --channel sdk --msg \"${env.GIT_REPO}/${GIT_BRANCH} Pipeline has failed.\""
+                            }
                         }
                     }
                 }
