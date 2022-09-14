@@ -14,6 +14,6 @@ upload: upload-no-latest
 build-and-upload: build upload
 
 init-devcontainer:
-	rvm install "ruby-2.7.2"
-	bash -l -c "rvm --default use 2.7.2 && bundle install"
+	rvm install "ruby-2.7"
+	bash -l -c "rvm --default use 2.7 && bundle install"
 	yarn install
