@@ -1,5 +1,6 @@
 $tasks_storage = []
 
+
 class TasksController < ApplicationController
   # GET '/tasks'
   # GET '/tasks/active'
@@ -61,6 +62,12 @@ class TasksController < ApplicationController
     $tasks_storage.delete_if { |t| t.id == id }
     redirect_back(fallback_location: 'tasks')
   end
+
+  # DELTE '/tasks/remove_all'
+  def remove_all 
+    $tasks_storage = Array.new()
+    redirect_back(fallback_location: 'tasks')
+  end  
 
   # POST '/tasks/clear_completed'
   def clear_completed

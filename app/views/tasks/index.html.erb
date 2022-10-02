@@ -101,6 +101,17 @@
   <p>
     Double-click to edit a todo
   </p>
+  <%= button_tag("Click here to remove all items",
+                       :type => "",
+                       :class => "clear-all-items",
+                       :data => {
+                         :remote => true,
+                         :method => :delete,
+                         :url => "/tasks/remove_all",
+                         :confirm => "Are you sure? This cannot be undone."
+                       })
+        %>
+
 </footer>
 
 <script>
