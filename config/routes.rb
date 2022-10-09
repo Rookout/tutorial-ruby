@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post '/tasks/clear_completed' => 'tasks#clear_completed'
   post '/' => 'tasks#create'
   put '/tasks/:id' => 'tasks#update'
-  delete '/tasks/remove_all' => 'tasks#remove_all_all'
+  delete '/tasks/remove_all' => 'tasks#remove_all'
   delete '/tasks/:id' => 'tasks#destroy'
   root 'tasks#index'
 
