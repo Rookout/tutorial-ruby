@@ -1,7 +1,7 @@
 regressionTest {
     FILE_PATH =  "/usr/src/app/app/controllers/tasks_controller.rb"
     LINE_NUM =  "28"
-    SHA =  "fa4a3ec9b13d0987a0e32ee4490b63bec1612a594ce03777a591ae4eb88a1c75"
+    SHA =  "fa403a564ffd6ee418dbaaa2ad0064588804a33f5252bc525fa5716c9c3df87c"
     URL_FOR_TRIGGER = "http://localhost:3000"
     LANG = "ruby"
     BACKGROUND_IMAGE_CMD = "cd /usr/src/app && rails server -e development -b 0.0.0.0 &"
