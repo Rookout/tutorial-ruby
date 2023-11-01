@@ -15,6 +15,7 @@ podCreator.initMain(label: label) {
                 def scriptToUse = libraryResource 'generate_tests.groovy'
                 def jobName = "tutorial-ruby"
                 def dockerTag = TestUtilities.getDockerTagNameForRegression(testFolder, jobName)
+                sh("gcloud auth configure-docker us-central1-docker.pkg.dev")
                 sh("docker build . -t ${dockerTag} && gcloud docker -- push ${dockerTag}")
                 sh("ls -alt")
                 print(pwd())
